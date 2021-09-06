@@ -15,7 +15,7 @@ Vagrant.configure("2") do |config|
   # boxes at https://vagrantcloud.com/search.
   # config.vm.box = "hashicorp/bionic64"
     config.vm.provider :digital_ocean do |provider, override|
-	# config.vm.hostname = 'hakkei.net'
+	config.vm.hostname = 'hakkei.net'
 	override.ssh.private_key_path = '~/.ssh/id_rsa'
 	override.vm.box = 'digital_ocean'
 	override.vm.box_url = "https://github.com/devopsgroup-io/vagrant-digitalocean/raw/master/box/digital_ocean.box"
@@ -97,8 +97,8 @@ Vagrant.configure("2") do |config|
   if File.exists?(File.join(Dir.home, ".gitconfig"))
       git_name = `git config user.name`
       git_email = `git config user.email`
-      config.vm.provision :shell, :inline => "echo 'Saving local git username to VM...' && sudo -i -u vagrant git config --global user.name '#{git_name.chomp}'"
-      config.vm.provision :shell, :inline => "echo 'Saving local git email to VM...' && sudo -i -u vagrant git config --global user.email '#{git_email.chomp}'"
+      # config.vm.provision :shell, :inline => "echo 'Saving local git username to VM...' && sudo -i -u laujonat git config --global user.name '#{git_name.chomp}'"
+      # config.vm.provision :shell, :inline => "echo 'Saving local git email to VM...' && sudo -i -u laujonat git config --global user.email '#{git_email.chomp}'"
   end
 
   # Enable provisioning with a shell script. Additional provisioners such as
@@ -108,9 +108,8 @@ Vagrant.configure("2") do |config|
     id_rsa_pub = File.read("#{Dir.home}/.ssh/id_rsa.pub")
     
     config.vm.provision :shell do |s|
-      s.path = 'vagrant/provision.sh'
-      s.inline = 'echo \"#{id_rsa_pub}\" >> /home/vagrant/.ssh/authorized_keys'
+      s.path = './vagrant/provision.sh'
+  #   s.inline = 'echo \"#{id_rsa_pub}\" >> /home/vagrant/.ssh/authorized_keys'
     end
 
-    config.vm.synced_folder '.', '/home/vagrant'
 end

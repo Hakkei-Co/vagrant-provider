@@ -1,7 +1,8 @@
 #!/bin/bash
 
 
-sudo apt-get update
+sudo apt-get update -y
+sudo apt-get upgrade -y
 
 # Turn off apt errors "dpkg-preconfigure: unable to re-open stdin: No such file or directory"
 
@@ -10,8 +11,8 @@ export DEBIAN_FRONTEND=noninteractive
 # Make sure we have up to date versions of git and curl 
 
 echo "Install basic packages..." 
-apt-get install git
-apt-get install curl
+apt-get install -y git
+apt-get install -y curl
 
 # Installing developer packages
 
@@ -41,8 +42,11 @@ source ~/.nvm/nvm.sh
 
 echo "Install compatible Node version 12 for Stencil support..." 
 nvm install 12
+nvm use 12
 nvm alias default node 
 
+# Install bigcommerce stencil
+npm install -g @bigcommerce/stencil-cli
 
 
 # Get latest npm
