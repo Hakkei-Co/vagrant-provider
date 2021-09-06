@@ -16,7 +16,7 @@ Vagrant.configure("2") do |config|
   # config.vm.box = "hashicorp/bionic64"
     config.vm.provider :digital_ocean do |provider, override|
 	config.vm.hostname = 'hakkei.net'
-	override.ssh.private_key_path = '~/.ssh/id_rsa'
+	override.ssh.private_key_path = '~/.ssh/git_vagrant_id_ed25519'
 	override.vm.box = 'digital_ocean'
 	override.vm.box_url = "https://github.com/devopsgroup-io/vagrant-digitalocean/raw/master/box/digital_ocean.box"
 	override.nfs.functional = false
@@ -97,19 +97,19 @@ Vagrant.configure("2") do |config|
   if File.exists?(File.join(Dir.home, ".gitconfig"))
       git_name = `git config user.name`
       git_email = `git config user.email`
-      # config.vm.provision :shell, :inline => "echo 'Saving local git username to VM...' && sudo -i -u laujonat git config --global user.name '#{git_name.chomp}'"
-      # config.vm.provision :shell, :inline => "echo 'Saving local git email to VM...' && sudo -i -u laujonat git config --global user.email '#{git_email.chomp}'"
+      #config.vm.provision :shell, :inline => "echo 'Saving local git username to VM...' && sudo -i -u vagrant git config --global user.name '#{git_name.chomp}'"
+      #config.vm.provision :shell, :inline => "echo 'Saving local git email to VM...' && sudo -i -u vagrant git config --global user.email '#{git_email.chomp}'"
   end
 
   # Enable provisioning with a shell script. Additional provisioners such as
   # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
   # documentation for more information about their specific syntax and use.
   # The user-config.sh holds configuration specific to the vagrant login user. 
-    id_rsa_pub = File.read("#{Dir.home}/.ssh/id_rsa.pub")
-    
-    config.vm.provision :shell do |s|
-      s.path = './vagrant/provision.sh'
-  #   s.inline = 'echo \"#{id_rsa_pub}\" >> /home/vagrant/.ssh/authorized_keys'
-    end
+  id_rsa_pub = File.read("#{Dir.home}/.ssh/git_vagrant_id_ed25519.pub")  
+  config.vm.provision :shell, :path => "/home/vagrant/vagrant_dir/vagrant/provision.sh", :privileged => "false", :run => "always" 	
+  # config.vm.provision :shell do |s|
+  #   s.path = './vagrant/provision.sh'
+  #  s.inline = 'echo \"#{id_rsa_pub}\" >> /home/vagrant/.ssh/authorized_keys'
+  # end
 
 end

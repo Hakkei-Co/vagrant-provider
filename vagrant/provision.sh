@@ -1,8 +1,8 @@
 #!/bin/bash
 
 
-sudo apt-get update -y
-sudo apt-get upgrade -y
+apt-get update
+# sudo apt-get upgrade -y
 
 # Turn off apt errors "dpkg-preconfigure: unable to re-open stdin: No such file or directory"
 
