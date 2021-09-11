@@ -1,0 +1,10 @@
+#!/bin/bash
+
+export USERNAME=
+export EMAIL=
+export DOMAIN=
+export PASSWORD=
+export HASHED_PASSWORD=$(openssl passwd -apr1 $PASSWORD)
+
+
+
